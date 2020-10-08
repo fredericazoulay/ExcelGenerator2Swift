@@ -29,6 +29,7 @@ namespace ExcelGenerator2SwiftApp
         string storePathFileExcelFileName = @"";
         string storePathFolderTextFiles = @"";
         string storeExtension = @"";
+        string storePathFolderSwift = @"";
         DataTable dt1 = new DataTable();
         DataTable dt2 = new DataTable();
 
@@ -39,10 +40,12 @@ namespace ExcelGenerator2SwiftApp
             storePathFileExcelFileName = ConfigurationSettings.AppSettings.Get("ExcelFileName");
             storePathFolderTextFiles = ConfigurationSettings.AppSettings.Get("FolderTextFiles");
             storeExtension = ConfigurationSettings.AppSettings.Get("Extension");
+            storePathFolderSwift = ConfigurationSettings.AppSettings.Get("FolderSwift");
 
             txbPathExcelFile.Text = storePathFileExcelFileName;
             txbPathDirectory.Text = storePathFolderTextFiles;
             txbExtension.Text = storeExtension;
+            txbPathSwift.Text = storePathFolderSwift;
         }
 
 
@@ -68,7 +71,6 @@ namespace ExcelGenerator2SwiftApp
             {
                 excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
             }
-            //excelReader.IsFirstRowAsColumnNames = true;
 
             DataSet result = excelReader.AsDataSet();
             var test = result.Tables[0];
@@ -85,11 +87,12 @@ namespace ExcelGenerator2SwiftApp
         private void btnBrowseExcelFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.InitialDirectory = txbPathExcelFile.Text;
+            FileInfo fi = new FileInfo(@txbPathExcelFile.Text);
+
+            openFileDialog.InitialDirectory = fi.DirectoryName;
             if (openFileDialog.ShowDialog() == true)
             {
                 txbPathExcelFile.Text = openFileDialog.FileName;
-                //txbPath.Text = File.ReadAllText(openFileDialog.FileName);
             }
             storePathFileExcelFileName = txbPathExcelFile.Text;
         }
@@ -134,7 +137,18 @@ namespace ExcelGenerator2SwiftApp
                 }
                 indexRow = 0;
                 indexCol++;
-                System.IO.File.WriteAllLines(@strFileToWrite, lstLinesToWrite);
+                //System.IO.File.WriteAllLines(@strFileToWrite, lstLinesToWrite);
+                StreamWriter fileStream = System.IO.File.CreateText(@strFileToWrite);
+                int cpt = 0;
+                foreach (String line in lstLinesToWrite)
+                {
+                    if (cpt == lstLinesToWrite.Count-1)
+                        fileStream.Write(line);
+                    else
+                        fileStream.WriteLine(line);
+                    cpt++;
+                }
+                fileStream.Close();
             }
             MessageBox.Show("Text file(s) generation done.", strApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -150,7 +164,7 @@ namespace ExcelGenerator2SwiftApp
         private void btnBrowsePath_Click(object sender, RoutedEventArgs e)
         {
             var openFolderDialog = new VistaFolderBrowserDialog();
-            openFolderDialog.SelectedPath = txbPathDirectory.Text;
+            openFolderDialog.SelectedPath = @txbPathDirectory.Text;
             if (openFolderDialog.ShowDialog() == true)
             {
                 txbPathDirectory.Text = openFolderDialog.SelectedPath;
@@ -158,56 +172,6 @@ namespace ExcelGenerator2SwiftApp
             storePathFolderTextFiles = txbPathDirectory.Text;
         }
 
-        /*
-        public DataTable ConvertListToDataTable<T>(IList<T> data)
-        {
-            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-            DataTable table = new DataTable();
-            foreach (PropertyDescriptor prop in properties)
-                table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
-            foreach (T item in data)
-            {
-                DataRow row = table.NewRow();
-                foreach (PropertyDescriptor prop in properties)
-                    row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
-                table.Rows.Add(row);
-            }
-            return table;
-
-        }
-        */
-
-        /*
-        static DataTable ConvertListToDataTable(List<string> list)
-        {
-            // New table.
-            DataTable table = new DataTable();
-
-            // Get max columns.
-            int columns = 0;
-            foreach (var array in list)
-            {
-                if (array.Length > columns)
-                {
-                    columns = array.Length;
-                }
-            }
-
-            // Add columns.
-            for (int i = 0; i < columns; i++)
-            {
-                table.Columns.Add();
-            }
-
-            // Add rows.
-            foreach (var array in list)
-            {
-                table.Rows.Add(array);
-            }
-
-            return table;
-        }
-        */
 
         /// <summary>
         /// 
@@ -221,9 +185,7 @@ namespace ExcelGenerator2SwiftApp
             List<string> lstFileEntries = new List<string>();
             foreach (string fileName in arrFileEntries)
             {
-                
-                //if (fileName.EndsWith(".txt"))
-                if (fileName.EndsWith(txbExtension.Text))
+                if (fileName.EndsWith(txbExtension.Text) || fileName.Contains(txbExtension.Text))
                 {
                     lstFileEntries.Add(fileName);
                 }
@@ -236,7 +198,8 @@ namespace ExcelGenerator2SwiftApp
                 string linesToRead = System.IO.File.ReadAllText(fileName);
                 //string strText = fileName + "\r\n" + linesToRead;
                 string strText = linesToRead;
-                lstFileRead.Add(strText);
+                if (!string.IsNullOrEmpty(strText))
+                    lstFileRead.Add(strText);
             }
 
             DataTable outputTable = new DataTable();
@@ -328,38 +291,96 @@ namespace ExcelGenerator2SwiftApp
         private void btnGenerate_2_Click(object sender, RoutedEventArgs e)
         {
             // Ecriture fichier Excel à partir d'une DataTable
-
-
-
             HelperConvert.ExportExcelFile(dt2, Path.Combine(storePathFolderTextFiles, "ExportExcel.xlsx"));
             MessageBox.Show("Excel file generation done.", strApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
-
-            //DataTable dataTable = new DataTable();
-            //DataColumn column = new DataColumn("My Datacolumn");
-            //DataColumn column2 = new DataColumn(@"C:\Developpement\Tests_dev");
-            //dataTable.Columns.Add(column);
-            //dataTable.Columns.Add(column2);
-            //dataTable.Rows.Add(new object[] { "Foobar","BLABLA" });
-
-            /*
-            var lines = new List<string>();
-
-            string[] columnNames = dt2.Columns.Cast<DataColumn>().
-                                              Select(column => column.ColumnName).
-                                              ToArray();
-
-            var header = string.Join(",", columnNames);
-            lines.Add(header);
-            var valueLines = dt2.AsEnumerable()
-                               .Select(row => string.Join(",", row.ItemArray));
-            lines.AddRange(valueLines);
-            File.WriteAllLines(Path.Combine(storePathFolder, "ExportExcel.csv"), lines);
-            */
         }
 
         #endregion
 
+        #region Part3
+
+        private void btnBrowse_3_Click(object sender, RoutedEventArgs e)
+        {
+            var openFolderDialog = new VistaFolderBrowserDialog();
+            openFolderDialog.SelectedPath = txbPathSwift.Text;
+            if (openFolderDialog.ShowDialog() == true)
+            {
+                txbPathSwift.Text = openFolderDialog.SelectedPath;
+            }
+            storePathFolderSwift = txbPathSwift.Text;
+        }
+
+        private void generateSwift(string strSwiftType)
+        {
+            string fileNameIn = Path.Combine(txbPathSwift.Text, @"Swift\In\" + strSwiftType + ".txt");
+            string PathOut = Path.Combine(txbPathSwift.Text, @"Swift\Out\" + strSwiftType);
+            string fileNameOut = Path.Combine(txbPathSwift.Text, @"Swift\Out\" + strSwiftType + @"\" + strSwiftType + "_");
+            string linesToRead = System.IO.File.ReadAllText(fileNameIn);
+
+            if (!Directory.Exists(@PathOut))
+            {
+                DirectoryInfo di = Directory.CreateDirectory(@PathOut);
+            }
+
+            for (int iCpt = 0; iCpt < 1000; iCpt++)
+            {
+                string linesIncremented = linesToRead.Replace("{CPT}", iCpt.ToString());
+                string strFileNameOut = @fileNameOut + iCpt.ToString() + ".txt";
+                //FileStream fileStreamCreate = System.IO.File.Create(strFileNameOut);
+                //fileStreamCreate.Close();
+                StreamWriter fileStream = System.IO.File.CreateText(@strFileNameOut);
+                fileStream.WriteLine(linesIncremented);
+                fileStream.Close();
+                //System.IO.File.WriteAllLines(strFileNameOut, arrLinesIncremented);
+            }
+        }
+
+        private void btnMT502_Click(object sender, RoutedEventArgs e)
+        {
+            this.generateSwift("MT502");
+        }
+
+        private void btnMT54X_Click(object sender, RoutedEventArgs e)
+        {
+            this.generateSwift("MT54X");
+        }
+
+        private void btnMT598_Click(object sender, RoutedEventArgs e)
+        {
+            this.generateSwift("MT598");
+        }
+
+        private void btnMT304_Click(object sender, RoutedEventArgs e)
+        {
+            this.generateSwift("MT304");
+        }
+
+        private void btnUBIX_Click(object sender, RoutedEventArgs e)
+        {
+            this.generateSwift("UBIX");
+        }
+
         
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnGenerate_3_Click(object sender, RoutedEventArgs e)
+        {
+            // Ecriture des fichiers de test
+            this.generateSwift("MT502");
+            this.generateSwift("MT54X");
+            this.generateSwift("MT598");
+            this.generateSwift("MT304");
+            this.generateSwift("UBIX");
+            MessageBox.Show("Swift test files generation done.", strApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        #endregion
+
+
         private void OnClickAbout(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("About : " + strApplicationName, strApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -373,26 +394,6 @@ namespace ExcelGenerator2SwiftApp
         {
             if (MessageBox.Show("Are you sure to quite the application ?", strApplicationName, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 this.Close();
-
-            /*
-            // MessageBoxResult result = MessageBox.Show("Would you like to greet the world with a \"Hello, world\"?", "My App", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-            MessageBoxResult result = MessageBox.Show("Are you sure to quite the application ?", strApplicationName, MessageBoxButton.YesNo, MessageBoxImage.Question); //, MessageBoxResult.No);
-            switch (result)
-            {
-                case MessageBoxResult.Yes:
-                    this.Close();
-                    //MessageBox.Show("Hello to you too!", "My App");
-                    break;
-                case MessageBoxResult.No:
-                    //MessageBox.Show("Oh well, too bad!", "My App");
-                    break;
-               // case MessageBoxResult.Cancel:
-               //     MessageBox.Show("Nevermind then...", "My App");
-               //     break;
-            }
-
-            //this.Close();
-            */
         }
 
     }

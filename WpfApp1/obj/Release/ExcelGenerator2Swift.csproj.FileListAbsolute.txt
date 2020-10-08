@@ -41,7 +41,6 @@ C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\bin\Release\ICSharpCode.
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\bin\Release\ICSharpCode.SharpZipLib.xml
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\bin\Release\Ookii.Dialogs.Wpf.pdb
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\bin\Release\Ookii.Dialogs.Wpf.xml
-C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Release\ExcelGenerator2Swift.csprojAssemblyReference.cache
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Release\ExcelGenerator2Swift.csproj.ResolveComReference.cache
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Release\MainWindow.g.cs
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Release\App.g.cs

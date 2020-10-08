@@ -223,5 +223,104 @@ namespace ExcelGenerator2SwiftApp
         }
         */
 
+
+        /*
+ public DataTable ConvertListToDataTable<T>(IList<T> data)
+ {
+     PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
+     DataTable table = new DataTable();
+     foreach (PropertyDescriptor prop in properties)
+         table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+     foreach (T item in data)
+     {
+         DataRow row = table.NewRow();
+         foreach (PropertyDescriptor prop in properties)
+             row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
+         table.Rows.Add(row);
+     }
+     return table;
+
+ }
+ */
+
+        /*
+        static DataTable ConvertListToDataTable(List<string> list)
+        {
+            // New table.
+            DataTable table = new DataTable();
+
+            // Get max columns.
+            int columns = 0;
+            foreach (var array in list)
+            {
+                if (array.Length > columns)
+                {
+                    columns = array.Length;
+                }
+            }
+
+            // Add columns.
+            for (int i = 0; i < columns; i++)
+            {
+                table.Columns.Add();
+            }
+
+            // Add rows.
+            foreach (var array in list)
+            {
+                table.Rows.Add(array);
+            }
+
+            return table;
+        }
+        */
+
+
+        // WRITE IN EXCEL FILE
+
+        //DataTable dataTable = new DataTable();
+        //DataColumn column = new DataColumn("My Datacolumn");
+        //DataColumn column2 = new DataColumn(@"C:\Developpement\Tests_dev");
+        //dataTable.Columns.Add(column);
+        //dataTable.Columns.Add(column2);
+        //dataTable.Rows.Add(new object[] { "Foobar","BLABLA" });
+
+        /*
+        var lines = new List<string>();
+
+        string[] columnNames = dt2.Columns.Cast<DataColumn>().
+                                          Select(column => column.ColumnName).
+                                          ToArray();
+
+        var header = string.Join(",", columnNames);
+        lines.Add(header);
+        var valueLines = dt2.AsEnumerable()
+                           .Select(row => string.Join(",", row.ItemArray));
+        lines.AddRange(valueLines);
+        File.WriteAllLines(Path.Combine(storePathFolder, "ExportExcel.csv"), lines);
+        */
+
+
+
+        /*
+        // MessageBoxResult result = MessageBox.Show("Would you like to greet the world with a \"Hello, world\"?", "My App", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+        MessageBoxResult result = MessageBox.Show("Are you sure to quite the application ?", strApplicationName, MessageBoxButton.YesNo, MessageBoxImage.Question); //, MessageBoxResult.No);
+        switch (result)
+        {
+            case MessageBoxResult.Yes:
+                this.Close();
+                //MessageBox.Show("Hello to you too!", "My App");
+                break;
+            case MessageBoxResult.No:
+                //MessageBox.Show("Oh well, too bad!", "My App");
+                break;
+           // case MessageBoxResult.Cancel:
+           //     MessageBox.Show("Nevermind then...", "My App");
+           //     break;
+        }
+
+        //this.Close();
+        */
+
     }
 }
