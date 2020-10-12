@@ -15,6 +15,11 @@ using System.Configuration;
 //using System.Configuration;
 //using System.Collections.Specialized;
 
+//****************************************************************************************************************
+//****************************************************************************************************************
+//****************************************************************************************************************
+//****************************************************************************************************************
+
 namespace ExcelGenerator2SwiftApp
 {
     /// <summary>
@@ -33,6 +38,9 @@ namespace ExcelGenerator2SwiftApp
         DataTable dt1 = new DataTable();
         DataTable dt2 = new DataTable();
 
+        /// <summary>
+        /// MainWindow
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -174,7 +182,7 @@ namespace ExcelGenerator2SwiftApp
 
 
         /// <summary>
-        /// 
+        /// btnRead_2_Click
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -299,6 +307,11 @@ namespace ExcelGenerator2SwiftApp
 
         #region Part3
 
+        /// <summary>
+        /// btnBrowse_3_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnBrowse_3_Click(object sender, RoutedEventArgs e)
         {
             var openFolderDialog = new VistaFolderBrowserDialog();
@@ -310,11 +323,16 @@ namespace ExcelGenerator2SwiftApp
             storePathFolderSwift = txbPathSwift.Text;
         }
 
+        /// <summary>
+        /// generateSwift
+        /// </summary>
+        /// <param name="strSwiftType"></param>
         private void generateSwift(string strSwiftType)
         {
+            int nbTestFiles = Int32.Parse(txbNbreTestFiles.Text);
             string fileNameIn = Path.Combine(txbPathSwift.Text, @"Swift\In\" + strSwiftType + ".txt");
             string PathOut = Path.Combine(txbPathSwift.Text, @"Swift\Out\" + strSwiftType);
-            string fileNameOut = Path.Combine(txbPathSwift.Text, @"Swift\Out\" + strSwiftType + @"\" + strSwiftType + "_");
+            string fileNameOut = Path.Combine(txbPathSwift.Text, @"Swift\Out\" + strSwiftType + @"\ReceivedFiles\" + strSwiftType + "_");
             string linesToRead = System.IO.File.ReadAllText(fileNameIn);
 
             if (!Directory.Exists(@PathOut))
@@ -322,39 +340,61 @@ namespace ExcelGenerator2SwiftApp
                 DirectoryInfo di = Directory.CreateDirectory(@PathOut);
             }
 
-            for (int iCpt = 0; iCpt < 1000; iCpt++)
+            for (int iCpt = 0; iCpt < nbTestFiles; iCpt++)
             {
                 string linesIncremented = linesToRead.Replace("{CPT}", iCpt.ToString());
                 string strFileNameOut = @fileNameOut + iCpt.ToString() + ".txt";
-                //FileStream fileStreamCreate = System.IO.File.Create(strFileNameOut);
-                //fileStreamCreate.Close();
                 StreamWriter fileStream = System.IO.File.CreateText(@strFileNameOut);
                 fileStream.WriteLine(linesIncremented);
                 fileStream.Close();
-                //System.IO.File.WriteAllLines(strFileNameOut, arrLinesIncremented);
             }
         }
 
+        /// <summary>
+        /// btnMT502_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnMT502_Click(object sender, RoutedEventArgs e)
         {
             this.generateSwift("MT502");
         }
 
+        /// <summary>
+        /// btnMT54X_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnMT54X_Click(object sender, RoutedEventArgs e)
         {
             this.generateSwift("MT54X");
         }
 
+        /// <summary>
+        /// btnMT598_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnMT598_Click(object sender, RoutedEventArgs e)
         {
             this.generateSwift("MT598");
         }
 
+        /// <summary>
+        /// btnMT304_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnMT304_Click(object sender, RoutedEventArgs e)
         {
             this.generateSwift("MT304");
         }
 
+        /// <summary>
+        /// btnUBIX_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUBIX_Click(object sender, RoutedEventArgs e)
         {
             this.generateSwift("UBIX");
@@ -380,11 +420,16 @@ namespace ExcelGenerator2SwiftApp
 
         #endregion
 
-
+        /// <summary>
+        /// OnClickAbout
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnClickAbout(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("About : " + strApplicationName, strApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
         /// <summary>
         /// btnClose_Click
         /// </summary>
