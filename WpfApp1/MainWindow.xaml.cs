@@ -123,8 +123,10 @@ namespace ExcelGenerator2SwiftApp
                 string refFrontSwift = "";
                 string strTextToFind = "";
 
+                // ONLY RefFront NEWM => No CANC
                 if (typeSwift == "304")
                 {
+                    // :20:
                     strTextToFind = @":20:"; 
                 }
                 else if (typeSwift == "502")
@@ -134,12 +136,12 @@ namespace ExcelGenerator2SwiftApp
                 }
                 else if ((typeSwift == "541") || (typeSwift == "543"))
                 {
-                    //:20C::SEME//
+                    // :20C::SEME//
                     strTextToFind = @":20C::SEME//";
                 }
                 else if (typeSwift == "598")
                 {
-                    //:20:DO/1991B/
+                    // :20:
                     strTextToFind = @":20:";
                 }
                 else
@@ -147,7 +149,7 @@ namespace ExcelGenerator2SwiftApp
                     // Nothing
                 }
 
-                string strTextEndLine = "\r\n";
+                string strTextEndLine = "\n";
                 int indexStart1 = linesToRead.IndexOf(@strTextToFind);
                 int indexEnd1 = linesToRead.IndexOf(strTextEndLine, indexStart1);
                 if ((indexStart1 > 0) && (indexEnd1 > 0))
