@@ -35,6 +35,10 @@ namespace ExcelGenerator2SwiftApp
         string storePathFolderTextFiles = @"";
         string storeExtension = @"";
         string storePathFolderSwift = @"";
+        string storePathFolderSwift_0 = @"";
+        string storeSuffix_0 = @"";
+        
+
         DataTable dt1 = new DataTable();
         DataTable dt2 = new DataTable();
 
@@ -49,13 +53,125 @@ namespace ExcelGenerator2SwiftApp
             storePathFolderTextFiles = ConfigurationSettings.AppSettings.Get("FolderTextFiles");
             storeExtension = ConfigurationSettings.AppSettings.Get("Extension");
             storePathFolderSwift = ConfigurationSettings.AppSettings.Get("FolderSwift");
+            storeSuffix_0 = ConfigurationSettings.AppSettings.Get("Suffix_0");
+            storePathFolderSwift_0 = ConfigurationSettings.AppSettings.Get("FolderSwift_0");
 
             txbPathExcelFile.Text = storePathFileExcelFileName;
             txbPathDirectory.Text = storePathFolderTextFiles;
             txbExtension.Text = storeExtension;
             txbPathSwift.Text = storePathFolderSwift;
+            txbSuffix_0.Text = storeSuffix_0;
+            txbPathSwift_0.Text = storePathFolderSwift_0;
         }
 
+        #region Part0
+
+        /// <summary>
+        /// btnBrowse_0_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnBrowse_0_Click(object sender, RoutedEventArgs e)
+        {
+            var openFolderDialog = new VistaFolderBrowserDialog();
+            openFolderDialog.SelectedPath = txbPathSwift_0.Text;
+            if (openFolderDialog.ShowDialog() == true)
+            {
+                txbPathSwift_0.Text = openFolderDialog.SelectedPath;
+            }
+            storePathFolderSwift_0 = txbPathSwift_0.Text;
+        }
+
+        /// <summary>
+        /// btnDuplicate_0_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDuplicate_0_Click(object sender, RoutedEventArgs e)
+        {
+            var suffix = txbSuffix_0.Text;
+            var pathFolderSwift = txbPathSwift_0.Text; // storePathFolderSwift_0
+
+            string[] arrFileEntries = Directory.GetFiles(pathFolderSwift);
+            
+
+            List<string> lstFileEntries = new List<string>();
+            foreach (string fullFileName_in in arrFileEntries)
+            {
+                FileInfo file = new FileInfo(fullFileName_in);
+                string pathFile_in = file.DirectoryName;
+                string pathFile_out = @pathFile_in + suffix;
+                //string pathFile_out = Path.Combine(@pathFile_in, @suffix);
+                string nameFile = file.Name;
+                //string fullFileName_out = pathFile_out + nameFile;
+                string fullFileName_out = Path.Combine(@pathFile_out, @nameFile);
+
+
+
+                if (!Directory.Exists(@pathFile_out))
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(@pathFile_out);
+                }
+
+                string linesToRead = System.IO.File.ReadAllText(fullFileName_in);
+                string strStart = "{2:O";
+                int lenStart = strStart.Length;
+                int indexStartTypeSwift = linesToRead.IndexOf(@strStart);
+
+                int indexStart = linesToRead.IndexOf("{2:O");
+                string typeSwift = linesToRead.Substring(indexStartTypeSwift + lenStart, 3);
+                string refFrontSwift = "";
+                string strTextToFind = "";
+
+                if (typeSwift == "304")
+                {
+                    strTextToFind = @":20:"; 
+                }
+                else if (typeSwift == "502")
+                {
+                    // :20C::SEME//
+                    strTextToFind = @":20C::SEME//"; 
+                }
+                else if ((typeSwift == "541") || (typeSwift == "543"))
+                {
+                    //:20C::SEME//
+                    strTextToFind = @":20C::SEME//";
+                }
+                else if (typeSwift == "598")
+                {
+                    //:20:DO/1991B/
+                    strTextToFind = @":20:";
+                }
+                else
+                {
+                    // Nothing
+                }
+
+                string strTextEndLine = "\r\n";
+                int indexStart1 = linesToRead.IndexOf(@strTextToFind);
+                int indexEnd1 = linesToRead.IndexOf(strTextEndLine, indexStart1);
+                if ((indexStart1 > 0) && (indexEnd1 > 0))
+                {
+                    int indexLen1 = indexEnd1 - indexStart1;
+                    refFrontSwift = linesToRead.Substring(indexStart1, indexLen1);
+                }
+
+                if (refFrontSwift.Length > 0)
+                { 
+                    string refFrontSwiftUpdated = refFrontSwift + suffix;
+
+                    string linesUpdated = linesToRead.Replace(refFrontSwift, refFrontSwiftUpdated);
+                    StreamWriter fileStream = System.IO.File.CreateText(@fullFileName_out);
+                    fileStream.WriteLine(linesUpdated);
+                    fileStream.Close();
+                }
+
+                lstFileEntries.Add(@fullFileName_out);
+            }
+            MessageBox.Show("Swift file(s) duplication done.", strApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        #endregion
 
 
         #region Part1
