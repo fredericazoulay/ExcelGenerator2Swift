@@ -54,3 +54,4 @@ C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Release\ExcelGenerat
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Release\ExcelGenerator2Swift.csproj.CopyComplete
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Release\ExcelGenerator2Swift.exe
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Release\ExcelGenerator2Swift.pdb
+C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Release\ExcelGenerator2Swift.csprojAssemblyReference.cache

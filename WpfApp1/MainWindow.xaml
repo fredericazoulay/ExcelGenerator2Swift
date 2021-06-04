@@ -83,7 +83,7 @@
             <TextBlock Text="Path : " Grid.Row="3" Grid.Column="1" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" />
             <TextBox Name="txbPathSwift_0" Grid.Row="3" Grid.Column="2"  TextWrapping="Wrap" Text="C:\Developpement\Tests_dev\Swift\in\" Grid.ColumnSpan="11" FontWeight="Bold"  ToolTip="Suffix added on Swift files"/>
             <Button Name="btnBrowse_0" Grid.Row="3" Content="..." Grid.Column="17"  Click="btnBrowse_0_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Browser to select the folder of Swift files"/>
-            <Button Name="btnDuplicate_0" Grid.Row="5" Content="Duplicate files" Grid.Column="17"  Click="btnDuplicate_0_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Duplicate Swift files with suffix"/>
+            <Button Name="btnDuplicate_0" Grid.Row="5" Content="Duplicate files" Grid.Column="17"  Click="btnDuplicate_0_BIG_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Duplicate Swift files with suffix"/>
 
 
             <!-- <Label Content="File : " Grid.Row="3" Grid.Column="1" Foreground="Red" FontWeight="Bold"/> -->

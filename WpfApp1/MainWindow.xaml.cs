@@ -83,6 +83,150 @@ namespace ExcelGenerator2SwiftApp
         }
 
         /// <summary>
+        /// btnDuplicate_0_BIG_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDuplicate_0_BIG_Click(object sender, RoutedEventArgs e)
+        {
+            var suffix = txbSuffix_0.Text;
+            var pathFolderSwift = txbPathSwift_0.Text; // storePathFolderSwift_0
+
+            string[] arrFileEntries = Directory.GetFiles(pathFolderSwift);
+
+
+            List<string> lstFileEntries = new List<string>();
+            foreach (string fullFileName_in in arrFileEntries)
+            {
+                FileInfo file = new FileInfo(fullFileName_in);
+                string pathFile_in = file.DirectoryName;
+                string pathFile_out = @pathFile_in + suffix;
+                //string pathFile_out = Path.Combine(@pathFile_in, @suffix);
+                string nameFile = file.Name;
+                //string fullFileName_out = pathFile_out + nameFile;
+                string fullFileName_out = Path.Combine(@pathFile_out, @nameFile);
+
+
+
+                if (!Directory.Exists(@pathFile_out))
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(@pathFile_out);
+                }
+
+                //string linesToRead = System.IO.File.ReadAllText(fullFileName_in);
+                string[] linesToRead = System.IO.File.ReadAllLines(fullFileName_in);
+                // Lines to write
+                List<string> lstlinesToWrite = new List<string>();
+                // Params
+                string strStart = "{2:O";
+                int lenStart = strStart.Length;
+                string strTextEndLine = "\n";
+                string typeSwift = "";
+                string refFrontSwift = "";
+                string strTextToFind = "";
+                string[] arrTextToFind = { @":20:", @":20C::SEME//" };
+                string strTextToFind_1 = @":20:";
+                string strTextToFind_2 = @":20C::SEME//";
+
+                foreach (string lineToRead in linesToRead)
+                {
+                    // DEBUT HEADER SWIFT
+                    if (lineToRead.Contains(strStart))
+                    {
+                        int indexStartTypeSwift = lineToRead.IndexOf(@strStart);
+                        int indexStart = lineToRead.IndexOf("{2:O");
+                        typeSwift = lineToRead.Substring(indexStartTypeSwift + lenStart, 3);
+                    }
+
+                    // ONLY RefFront NEWM => No CANC
+                    if (typeSwift == "304")
+                    {
+                        // :20:
+                        strTextToFind = @":20:";
+                    }
+                    else if (typeSwift == "502")
+                    {
+                        // :20C::SEME//
+                        strTextToFind = @":20C::SEME//";
+                    }
+                    else if ((typeSwift == "541") || (typeSwift == "543"))
+                    {
+                        // :20C::SEME//
+                        strTextToFind = @":20C::SEME//";
+                    }
+                    else if (typeSwift == "598")
+                    {
+                        // :20:
+                        strTextToFind = @":20:";
+                    }
+                    else
+                    {
+                        // Nothing or ADD other type of Swift or Replace by several strings
+                    }
+
+
+                    //******************************************
+                    // Faire boucle si on veut ajouter d'autres valeurs de recherche, cela sera plus propre
+                    //******************************************
+                    if (lineToRead.StartsWith(strTextToFind_1)) // StartsWith or Contains ?
+                    {
+                        int indexStart1 = lineToRead.IndexOf(strTextToFind_1);
+                        int indexEnd1 = lineToRead.Length;
+                        if ((indexStart1 >= 0) && (indexEnd1 >= 0))
+                        {
+                            int indexLen = indexEnd1 + indexStart1 - strTextToFind_1.Length;
+                            refFrontSwift = lineToRead.Substring(indexStart1 + strTextToFind_1.Length, indexLen);
+                        }
+                    }
+                    if  ( lineToRead.StartsWith(strTextToFind_2) )
+                    {
+                        int indexStart1 = lineToRead.IndexOf(strTextToFind_2);
+                        int indexEnd1 = lineToRead.Length;
+                        if ((indexStart1 >= 0) && (indexEnd1 >= 0))
+                        {
+                            int indexLen = indexEnd1 + indexStart1 - strTextToFind_2.Length;
+                            refFrontSwift = lineToRead.Substring(indexStart1 + strTextToFind_2.Length, indexLen);
+                        }
+                    }
+                    //******************************************
+
+                    if (refFrontSwift.Length > 0)
+                    {
+                        string refFrontSwiftUpdated = refFrontSwift + suffix;
+                        string lineUpdated = lineToRead.Replace(refFrontSwift, refFrontSwiftUpdated);
+                        lstlinesToWrite.Add(@lineUpdated);
+                    }
+                    else
+                    {
+                        lstlinesToWrite.Add(@lineToRead);
+                    }
+
+                }
+
+                StreamWriter fileStream = System.IO.File.CreateText(@fullFileName_out);
+                int indexLine = 1;
+                foreach (string lineToWrite in lstlinesToWrite)
+                {
+                    if (indexLine < lstlinesToWrite.Count)
+                    { 
+                        fileStream.Write(lineToWrite + strTextEndLine); // Saut de ligne UNIX
+                    }
+                    else
+                    { 
+                        fileStream.Write(lineToWrite);
+                    }
+                    indexLine++;
+                }
+                fileStream.Close();
+
+
+                lstFileEntries.Add(@fullFileName_out);
+            }
+            MessageBox.Show("Swift file(s) duplication done.", strApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+
+        /// <summary>
         /// btnDuplicate_0_Click
         /// </summary>
         /// <param name="sender"></param>
