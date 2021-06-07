@@ -89,8 +89,8 @@ namespace ExcelGenerator2SwiftApp
         /// <param name="e"></param>
         private void btnDuplicate_0_BIG_Click(object sender, RoutedEventArgs e)
         {
-            var suffix = txbSuffix_0.Text;
-            var pathFolderSwift = txbPathSwift_0.Text; // storePathFolderSwift_0
+            string suffix = txbSuffix_0.Text;
+            string pathFolderSwift = txbPathSwift_0.Text; // storePathFolderSwift_0
 
             string[] arrFileEntries = Directory.GetFiles(pathFolderSwift);
 
@@ -124,18 +124,21 @@ namespace ExcelGenerator2SwiftApp
                 string typeSwift = "";
                 string refFrontSwift = "";
                 string strTextToFind = "";
+                // :20C::POOL//
                 string[] arrTextToFind = { @":20:", @":20C::SEME//" };
                 string strTextToFind_1 = @":20:";
                 string strTextToFind_2 = @":20C::SEME//";
 
                 foreach (string lineToRead in linesToRead)
                 {
+                    string strLineToRead = lineToRead;
+
                     // DEBUT HEADER SWIFT
-                    if (lineToRead.Contains(strStart))
+                    if (strLineToRead.Contains(strStart))
                     {
-                        int indexStartTypeSwift = lineToRead.IndexOf(@strStart);
-                        int indexStart = lineToRead.IndexOf("{2:O");
-                        typeSwift = lineToRead.Substring(indexStartTypeSwift + lenStart, 3);
+                        int indexStartTypeSwift = strLineToRead.IndexOf(@strStart);
+                        int indexStart = strLineToRead.IndexOf("{2:O");
+                        typeSwift = strLineToRead.Substring(indexStartTypeSwift + lenStart, 3);
                     }
 
                     // ONLY RefFront NEWM => No CANC
@@ -164,28 +167,35 @@ namespace ExcelGenerator2SwiftApp
                         // Nothing or ADD other type of Swift or Replace by several strings
                     }
 
+                    if (strLineToRead.StartsWith(strTextToFind_1) || strLineToRead.StartsWith(strTextToFind_2))
+                    {
+                        strLineToRead = strLineToRead + suffix;
+                    }
 
+                    lstlinesToWrite.Add(strLineToRead);
+
+                    /*
                     //******************************************
                     // Faire boucle si on veut ajouter d'autres valeurs de recherche, cela sera plus propre
                     //******************************************
-                    if (lineToRead.StartsWith(strTextToFind_1)) // StartsWith or Contains ?
+                    if (strLineToRead.StartsWith(strTextToFind_1)) // StartsWith or Contains ?
                     {
-                        int indexStart1 = lineToRead.IndexOf(strTextToFind_1);
-                        int indexEnd1 = lineToRead.Length;
+                        int indexStart1 = strLineToRead.IndexOf(strTextToFind_1);
+                        int indexEnd1 = strLineToRead.Length;
                         if ((indexStart1 >= 0) && (indexEnd1 >= 0))
                         {
                             int indexLen = indexEnd1 + indexStart1 - strTextToFind_1.Length;
-                            refFrontSwift = lineToRead.Substring(indexStart1 + strTextToFind_1.Length, indexLen);
+                            refFrontSwift = strLineToRead.Substring(indexStart1 + strTextToFind_1.Length, indexLen);
                         }
                     }
-                    if  ( lineToRead.StartsWith(strTextToFind_2) )
+                    if  (strLineToRead.StartsWith(strTextToFind_2) )
                     {
-                        int indexStart1 = lineToRead.IndexOf(strTextToFind_2);
-                        int indexEnd1 = lineToRead.Length;
+                        int indexStart1 = strLineToRead.IndexOf(strTextToFind_2);
+                        int indexEnd1 = strLineToRead.Length;
                         if ((indexStart1 >= 0) && (indexEnd1 >= 0))
                         {
                             int indexLen = indexEnd1 + indexStart1 - strTextToFind_2.Length;
-                            refFrontSwift = lineToRead.Substring(indexStart1 + strTextToFind_2.Length, indexLen);
+                            refFrontSwift = strLineToRead.Substring(indexStart1 + strTextToFind_2.Length, indexLen);
                         }
                     }
                     //******************************************
@@ -193,13 +203,14 @@ namespace ExcelGenerator2SwiftApp
                     if (refFrontSwift.Length > 0)
                     {
                         string refFrontSwiftUpdated = refFrontSwift + suffix;
-                        string lineUpdated = lineToRead.Replace(refFrontSwift, refFrontSwiftUpdated);
+                        string lineUpdated = strLineToRead.Replace(refFrontSwift, refFrontSwiftUpdated);
                         lstlinesToWrite.Add(@lineUpdated);
                     }
                     else
                     {
-                        lstlinesToWrite.Add(@lineToRead);
+                        lstlinesToWrite.Add(strLineToRead);
                     }
+                    */
 
                 }
 
