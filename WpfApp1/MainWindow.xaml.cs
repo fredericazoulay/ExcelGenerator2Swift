@@ -37,7 +37,9 @@ namespace ExcelGenerator2SwiftApp
         string storePathFolderSwift = @"";
         string storePathFolderSwift_0 = @"";
         string storeSuffix_0 = @"";
-        
+        string storeFilterFileSwift_0 = @"";
+
+
 
         DataTable dt1 = new DataTable();
         DataTable dt2 = new DataTable();
@@ -55,6 +57,7 @@ namespace ExcelGenerator2SwiftApp
             storePathFolderSwift = ConfigurationSettings.AppSettings.Get("FolderSwift");
             storeSuffix_0 = ConfigurationSettings.AppSettings.Get("Suffix_0");
             storePathFolderSwift_0 = ConfigurationSettings.AppSettings.Get("FolderSwift_0");
+            storeFilterFileSwift_0 = ConfigurationSettings.AppSettings.Get("FilterFileSwift");
 
             txbPathExcelFile.Text = storePathFileExcelFileName;
             txbPathDirectory.Text = storePathFolderTextFiles;
@@ -62,6 +65,7 @@ namespace ExcelGenerator2SwiftApp
             txbPathSwift.Text = storePathFolderSwift;
             txbSuffix_0.Text = storeSuffix_0;
             txbPathSwift_0.Text = storePathFolderSwift_0;
+            txbFilterFileSwift_0.Text = storeFilterFileSwift_0;
         }
 
         #region Part0
@@ -90,20 +94,15 @@ namespace ExcelGenerator2SwiftApp
         private void btnDuplicate_0_BIG_Click(object sender, RoutedEventArgs e)
         {
             string suffix = txbSuffix_0.Text;
-            string pathFolderSwift = txbPathSwift_0.Text; // storePathFolderSwift_0
-
+            string pathFolderSwift = txbPathSwift_0.Text;
             string[] arrFileEntries = Directory.GetFiles(pathFolderSwift);
-
-
             List<string> lstFileEntries = new List<string>();
             foreach (string fullFileName_in in arrFileEntries)
             {
                 FileInfo file = new FileInfo(fullFileName_in);
                 string pathFile_in = file.DirectoryName;
                 string pathFile_out = @pathFile_in + suffix;
-                //string pathFile_out = Path.Combine(@pathFile_in, @suffix);
                 string nameFile = file.Name;
-                //string fullFileName_out = pathFile_out + nameFile;
                 string fullFileName_out = Path.Combine(@pathFile_out, @nameFile);
 
 
@@ -173,45 +172,6 @@ namespace ExcelGenerator2SwiftApp
                     }
 
                     lstlinesToWrite.Add(strLineToRead);
-
-                    /*
-                    //******************************************
-                    // Faire boucle si on veut ajouter d'autres valeurs de recherche, cela sera plus propre
-                    //******************************************
-                    if (strLineToRead.StartsWith(strTextToFind_1)) // StartsWith or Contains ?
-                    {
-                        int indexStart1 = strLineToRead.IndexOf(strTextToFind_1);
-                        int indexEnd1 = strLineToRead.Length;
-                        if ((indexStart1 >= 0) && (indexEnd1 >= 0))
-                        {
-                            int indexLen = indexEnd1 + indexStart1 - strTextToFind_1.Length;
-                            refFrontSwift = strLineToRead.Substring(indexStart1 + strTextToFind_1.Length, indexLen);
-                        }
-                    }
-                    if  (strLineToRead.StartsWith(strTextToFind_2) )
-                    {
-                        int indexStart1 = strLineToRead.IndexOf(strTextToFind_2);
-                        int indexEnd1 = strLineToRead.Length;
-                        if ((indexStart1 >= 0) && (indexEnd1 >= 0))
-                        {
-                            int indexLen = indexEnd1 + indexStart1 - strTextToFind_2.Length;
-                            refFrontSwift = strLineToRead.Substring(indexStart1 + strTextToFind_2.Length, indexLen);
-                        }
-                    }
-                    //******************************************
-
-                    if (refFrontSwift.Length > 0)
-                    {
-                        string refFrontSwiftUpdated = refFrontSwift + suffix;
-                        string lineUpdated = strLineToRead.Replace(refFrontSwift, refFrontSwiftUpdated);
-                        lstlinesToWrite.Add(@lineUpdated);
-                    }
-                    else
-                    {
-                        lstlinesToWrite.Add(strLineToRead);
-                    }
-                    */
-
                 }
 
                 StreamWriter fileStream = System.IO.File.CreateText(@fullFileName_out);
@@ -236,6 +196,167 @@ namespace ExcelGenerator2SwiftApp
             MessageBox.Show("Swift file(s) duplication done.", strApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        /// <summary>
+        /// btnBrowseFilterFile_0_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnBrowseFilterFile_0_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new VistaOpenFileDialog(); // VistaFolderBrowserDialog();
+            openFileDialog.FileName = txbPathSwift_0.Text;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                txbFilterFileSwift_0.Text = openFileDialog.FileName;
+            }
+            storeFilterFileSwift_0 = txbFilterFileSwift_0.Text;
+        }
+
+        /// <summary>
+        /// btnFilter_0_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnFilter_0_Click(object sender, RoutedEventArgs e)
+        {
+            String strFilterFileName = txbFilterFileSwift_0.Text;
+            List<string> lstFilterFile = new List<string>();
+            string[] arrLinesToRead = System.IO.File.ReadAllLines(strFilterFileName);
+            foreach(string lineToRead in arrLinesToRead)
+            { 
+                lstFilterFile.Add(lineToRead);
+            }
+
+            // Use Folder Path
+            string suffix = txbSuffix_0.Text;
+            string pathFolderSwift = txbPathSwift_0.Text;
+            String suffixFilter = "_filter";
+            string[] arrFileEntries = Directory.GetFiles(pathFolderSwift);
+            List<string> lstFileEntries = new List<string>();
+            foreach (string fullFileName_in in arrFileEntries)
+            {
+                FileInfo file = new FileInfo(fullFileName_in);
+                string pathFile_in = file.DirectoryName;
+                string pathFile_out = @pathFile_in + suffixFilter;
+                string nameFile = file.Name;
+                string fullFileName_out = Path.Combine(@pathFile_out, @nameFile);
+
+
+
+                if (!Directory.Exists(@pathFile_out))
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(@pathFile_out);
+                }
+
+                //string linesToRead = System.IO.File.ReadAllText(fullFileName_in);
+                string[] linesToRead = System.IO.File.ReadAllLines(fullFileName_in);
+                // Lines to write
+                List<string> lstlinesToWrite = new List<string>();
+                // Params
+                string strStart = "{2:O";
+                int lenStart = strStart.Length;
+                string strTextEndLine = "\n";
+                string typeSwift = "";
+                string ref_Front_Swift = "";
+                string ref_SDG_Swift = "";
+                bool isFiltered = false;
+                //string strTextToFind = "";
+
+                // :20C::POOL//
+                string[] arrTextToFind = { @":20:", @":20C::SEME//" };
+                string strTextToFind_1 = @":20:";
+                string strTextToFind_2 = @":20C::SEME//";
+
+                foreach (string lineToRead in linesToRead)
+                {
+                    string strLineToRead = lineToRead;
+
+                    // DEBUT HEADER SWIFT
+                    if (strLineToRead.Contains(strStart))
+                    {
+                        int indexStartTypeSwift = strLineToRead.IndexOf(@strStart);
+                        int indexStart = strLineToRead.IndexOf("{2:O");
+                        typeSwift = strLineToRead.Substring(indexStartTypeSwift + lenStart, 3);
+                        ref_SDG_Swift = strLineToRead.Substring(indexStartTypeSwift + lenStart + 13, 8);
+                    }
+
+                    // ONLY RefFront NEWM => No CANC
+                    /*
+                    if (typeSwift == "304")
+                    {
+                        // :20:
+                        strTextToFind = @":20:";
+                    }
+                    else if (typeSwift == "502")
+                    {
+                        // :20C::SEME//
+                        strTextToFind = @":20C::SEME//";
+                    }
+                    else if ((typeSwift == "541") || (typeSwift == "543"))
+                    {
+                        // :20C::SEME//
+                        strTextToFind = @":20C::SEME//";
+                    }
+                    else if (typeSwift == "598")
+                    {
+                        // :20:
+                        strTextToFind = @":20:";
+                    }
+                    else
+                    {
+                        // Nothing or ADD other type of Swift or Replace by several strings
+                    }
+                    */
+
+                    if ( strLineToRead.StartsWith(strTextToFind_1)  )
+                    {
+                        ref_Front_Swift = strLineToRead.Substring(strTextToFind_1.Length);
+                    }
+
+                    if ( strLineToRead.StartsWith(strTextToFind_2) )
+                    {
+                        ref_Front_Swift = strLineToRead.Substring(strTextToFind_2.Length);
+                    }
+
+                    lstlinesToWrite.Add(strLineToRead);
+                }
+
+                foreach (string lineToFilter in lstFilterFile)
+                {
+                    string[] arrLine = lineToFilter.Split(';');
+                    string strRefFront = arrLine[0];
+                    string strRefSDG = arrLine[1];
+                    if ( (ref_Front_Swift == strRefFront) && (ref_SDG_Swift == strRefSDG) )
+                    { 
+                        isFiltered = true;
+                        break;
+                    }
+                }
+
+                if (isFiltered == true)
+                { 
+                    StreamWriter fileStream = System.IO.File.CreateText(@fullFileName_out);
+                    int indexLine = 1;
+                    foreach (string lineToWrite in lstlinesToWrite)
+                    {
+                        if (indexLine < lstlinesToWrite.Count)
+                        {
+                            fileStream.Write(lineToWrite + strTextEndLine); // Saut de ligne UNIX
+                        }
+                        else
+                        {
+                            fileStream.Write(lineToWrite);
+                        }
+                        indexLine++;
+                    }
+                    fileStream.Close();
+                    lstFileEntries.Add(@fullFileName_out);
+                }
+            }
+
+
+            MessageBox.Show("Swift file(s) filter done.", strApplicationName, MessageBoxButton.OK, MessageBoxImage.Information);
+        }
 
         /// <summary>
         /// btnDuplicate_0_Click
@@ -245,7 +366,7 @@ namespace ExcelGenerator2SwiftApp
         private void btnDuplicate_0_Click(object sender, RoutedEventArgs e)
         {
             var suffix = txbSuffix_0.Text;
-            var pathFolderSwift = txbPathSwift_0.Text; // storePathFolderSwift_0
+            var pathFolderSwift = txbPathSwift_0.Text; 
 
             string[] arrFileEntries = Directory.GetFiles(pathFolderSwift);
             

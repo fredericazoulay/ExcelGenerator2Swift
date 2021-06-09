@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExcelGenerator2SwiftApp"
         mc:Ignorable="d"
-        Title="ExcelGenerator2Swift - v1.00" Height="1200" Width="1200"
+        Title="ExcelGenerator2Swift - v1.00" Height="1227" Width="1194"
         Icon="favico.ico"
         Background="Black">
     <Grid Margin="0,0,114,98">
@@ -14,43 +14,48 @@
             <RowDefinition Height="0*" />
         </Grid.RowDefinitions>
 
-        <Grid Margin="0,0,-117,-101" Grid.RowSpan="2">
+        <Grid Margin="0,0,-114,-99" Grid.RowSpan="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60*"/>
-                <RowDefinition Height="44*"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="114*"/>
                 <RowDefinition Height="17.5"/>
                 <RowDefinition Height="35"/>
-                <RowDefinition Height="12*"/>
+                <RowDefinition Height="15"/>
                 <RowDefinition Height="35"/>
-                <RowDefinition Height="12*"/>
-                <RowDefinition Height="35*"/>
-                <RowDefinition Height="12*"/>
-                <RowDefinition Height="70*"/>
-                <RowDefinition Height="11*"/>
-                <RowDefinition Height="70*"/>
-                <RowDefinition Height="37*"/>
-                <RowDefinition Height="35*"/>
-                <RowDefinition Height="35*"/>
-                <RowDefinition Height="10*"/>
-                <RowDefinition Height="29*"/>
-                <RowDefinition Height="71*"/>
-                <RowDefinition Height="12*"/>
-                <RowDefinition Height="70*"/>
-                <RowDefinition Height="35*"/>
-                <RowDefinition Height="36*"/>
-                <RowDefinition Height="35*"/>
-                <RowDefinition Height="22*"/>
-                <RowDefinition Height="70*"/>
-                <RowDefinition Height="12*"/>
-                <RowDefinition Height="70*"/>
-                <RowDefinition Height="10*"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="14*"/>
+                <RowDefinition Height="96*"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="91*"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="92*"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="94*"/>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="31*"/>
 
 
 
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="6*"/>
-                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="70*"/>
                 <ColumnDefinition Width="100*"/>
                 <ColumnDefinition Width="31*"/>
                 <ColumnDefinition Width="100*"/>
@@ -78,50 +83,54 @@
             </Button>
 
             <!-- DUPLICATE -->
-            <TextBlock Text="Suffix : " Grid.Row="3" Grid.Column="14" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" Margin="0,5" Grid.RowSpan="4"/>
+            <TextBlock Text="Suffix : " Grid.Row="3" Grid.Column="14" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" Margin="0,5" Grid.RowSpan="6"/>
             <TextBox x:Name="txbSuffix_0" Grid.Row="3" Grid.Column="15" TextWrapping="Wrap" Text="A" FontWeight="Bold" />
             <TextBlock Text="Path : " Grid.Row="3" Grid.Column="1" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" />
             <TextBox Name="txbPathSwift_0" Grid.Row="3" Grid.Column="2"  TextWrapping="Wrap" Text="C:\Developpement\Tests_dev\Swift\in\" Grid.ColumnSpan="11" FontWeight="Bold"  ToolTip="Suffix added on Swift files"/>
             <Button Name="btnBrowse_0" Grid.Row="3" Content="..." Grid.Column="17"  Click="btnBrowse_0_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Browser to select the folder of Swift files"/>
             <Button Name="btnDuplicate_0" Grid.Row="5" Content="Duplicate files" Grid.Column="17"  Click="btnDuplicate_0_BIG_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Duplicate Swift files with suffix"/>
-
+            <!-- FILTER -->
+            <TextBlock Text="Filter file : " Grid.Row="7" Grid.Column="1" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" />
+            <TextBox Name="txbFilterFileSwift_0" Grid.Row="7" Grid.Column="2"  TextWrapping="Wrap" Text="C:\Developpement\Tests_dev\Swift\in\" Grid.ColumnSpan="11" FontWeight="Bold"  ToolTip="Suffix added on Swift files"/>
+            <Button Name="btnBrowseFilterFile_0" Grid.Row="7" Content="..." Grid.Column="14"  Click="btnBrowseFilterFile_0_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Browser to select the filter files"/>
+            <Button Name="btnFilter_0" Grid.Row="7" Content="Filter files" Grid.Column="17"  Click="btnFilter_0_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Filter Swift files with suffix"/>
 
             <!-- <Label Content="File : " Grid.Row="3" Grid.Column="1" Foreground="Red" FontWeight="Bold"/> -->
-            <TextBlock Text="File : " Grid.Row="7" Grid.Column="1" Foreground="Red" TextDecorations="Underline" FontWeight="Bold"/>
-            <TextBox Name="txbPathExcelFile" Grid.Column="2" Grid.Row="7" TextWrapping="Wrap" Text="C:\Developpement\Tests_dev\TestSwift.xlsx" Grid.ColumnSpan="14" FontWeight="Bold"/>
-            <DataGrid Name="dataGrid_1" Grid.Column="2" Grid.Row="9" Grid.ColumnSpan="14" Grid.RowSpan="4"/>
-            <Button Name="btnBrowse_1" Content="..." Grid.Column="17" Grid.Row="7" Click="btnBrowseExcelFile_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Browser to select the Excel file"/>
-            <Button Name="btnRead_1" Content="Read Excel file" Grid.Column="17" Grid.Row="9" Click="btnRead_1_Click" Background="#FF77E67C" FontWeight="Bold" ToolTip="Read the Excel file" />
-            <Button Name="btnGenerate_1" Content="Generate Swift files" Grid.Column="17" Grid.Row="11" Click="btnGenerate_1_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write text file according the Excel file" />
+            <TextBlock Text="File : " Grid.Row="9" Grid.Column="1" Foreground="Red" TextDecorations="Underline" FontWeight="Bold"/>
+            <TextBox Name="txbPathExcelFile" Grid.Column="2" Grid.Row="9" TextWrapping="Wrap" Text="C:\Developpement\Tests_dev\TestSwift.xlsx" Grid.ColumnSpan="14" FontWeight="Bold"/>
+            <DataGrid Name="dataGrid_1" Grid.Column="2" Grid.Row="11" Grid.ColumnSpan="14" Grid.RowSpan="6"/>
+            <Button Name="btnBrowse_1" Content="..." Grid.Column="17" Grid.Row="9" Click="btnBrowseExcelFile_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Browser to select the Excel file"/>
+            <Button Name="btnRead_1" Content="Read Excel file" Grid.Column="17" Grid.Row="11" Click="btnRead_1_Click" Background="#FF77E67C" FontWeight="Bold" ToolTip="Read the Excel file" />
+            <Button Name="btnGenerate_1" Content="Generate Swift files" Grid.Column="17" Grid.Row="13" Click="btnGenerate_1_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write text file according the Excel file" />
 
 
 
 
             <!-- <Label Grid.Row="12" Content="Path :" Grid.Column="1" Foreground="Red" FontWeight="Bold"/> -->
-            <TextBlock Text="Path : " Grid.Row="14" Grid.Column="1" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" Margin="0,10,0,0" Grid.RowSpan="2"/>
-            <TextBox x:Name="txbPathDirectory" Grid.Column="2" Grid.Row="14" TextWrapping="Wrap" Text="C:\Developpement\Tests_dev\" Grid.ColumnSpan="11" FontWeight="Bold" Margin="0,3,0,0"/>
-            <Button x:Name="btnBrowse_2" Content="..." Grid.Column="16" Grid.Row="14" Click="btnBrowsePath_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Browser to select the folder with text files" Grid.ColumnSpan="2" Margin="5,0,2,3" Height="32" VerticalAlignment="Bottom"/>
-            <Button x:Name="btnRead_2" Content="Read Text files" Grid.Column="17" Grid.Row="17" Click="btnRead_2_Click" Background="#FF77E67C" FontWeight="Bold" ToolTip="Read the folder with text files" />
-            <Button x:Name="btnGenerate_2" Content="Generate Excel file" Grid.Column="16" Grid.Row="19" Click="btnGenerate_2_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write the Excel file 'ExportExcel.xlsx' in the folder" Grid.ColumnSpan="2" Margin="5,0,2,6"/>
-            <DataGrid x:Name="dataGrid_2" Grid.Column="2" Grid.Row="17" Grid.ColumnSpan="14" Grid.RowSpan="4" />
+            <TextBlock Text="Path : " Grid.Row="18" Grid.Column="1" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" Margin="0,10,0,0" Grid.RowSpan="2"/>
+            <TextBox x:Name="txbPathDirectory" Grid.Column="2" Grid.Row="18" TextWrapping="Wrap" Text="C:\Developpement\Tests_dev\" Grid.ColumnSpan="11" FontWeight="Bold" Margin="0,3,0,0"/>
+            <Button x:Name="btnBrowse_2" Content="..." Grid.Column="16" Grid.Row="18" Click="btnBrowsePath_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Browser to select the folder with text files" Grid.ColumnSpan="2" Margin="5,0,2,3" Height="32" VerticalAlignment="Bottom"/>
+            <Button x:Name="btnRead_2" Content="Read Text files" Grid.Column="17" Grid.Row="21" Click="btnRead_2_Click" Background="#FF77E67C" FontWeight="Bold" ToolTip="Read the folder with text files" />
+            <Button x:Name="btnGenerate_2" Content="Generate Excel file" Grid.Column="17" Grid.Row="23" Click="btnGenerate_2_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write the Excel file 'ExportExcel.xlsx' in the folder" Margin="0,0,1,0"/>
+            <DataGrid x:Name="dataGrid_2" Grid.Column="2" Grid.Row="21" Grid.ColumnSpan="14" Grid.RowSpan="5" />
             <!-- <Label Grid.Row="12" Content="Extension :" Grid.Column="6" Foreground="Red" FontWeight="Bold"/> -->
-            <TextBlock Text="Extension : " Grid.Row="14" Grid.Column="14" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" Margin="0,5" Grid.RowSpan="2"/>
-            <TextBox x:Name="txbExtension" Grid.Column="15" Grid.Row="14" TextWrapping="Wrap" Text=".txt" FontWeight="Bold" />
+            <TextBlock Text="Extension : " Grid.Row="18" Grid.Column="14" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" Margin="0,5" Grid.RowSpan="2"/>
+            <TextBox x:Name="txbExtension" Grid.Column="15" Grid.Row="18" TextWrapping="Wrap" Text=".txt" FontWeight="Bold" />
 
 
-            <TextBlock Text="Path : " Grid.Row="22" Grid.Column="1" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" />
-            <TextBox Name="txbPathSwift" Grid.Column="2" Grid.Row="22" TextWrapping="Wrap" Text="C:\Developpement\Tests_dev\" Grid.ColumnSpan="11" FontWeight="Bold"/>
-            <Button Name="btnBrowse_3" Content="..." Grid.Column="17" Grid.Row="22" Click="btnBrowse_3_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Browser to select the folder of test files"/>
-            <Button x:Name="btnMT502" Content="MT502" Grid.Column="2" Grid.Row="24" Click="btnMT502_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write MT502 Test files in the folder"/>
-            <Button x:Name="btnMT54X" Content="MT54X" Grid.Column="4" Grid.Row="24" Click="btnMT54X_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write MT54X Test files in the folder"/>
-            <Button x:Name="btnMT598" Content="MT598" Grid.Column="6" Grid.Row="24" Click="btnMT598_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write MT598 Test files in the folder"/>
-            <Button x:Name="btnMT304" Content="MT304" Grid.Column="8" Grid.Row="24" Click="btnMT304_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write MT304 Test files in the folder"/>
-            <Button x:Name="btnUBIX" Content="UBIX" Grid.Column="10" Grid.Row="24" Click="btnUBIX_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write UBIX Test files in the folder"/>
-            <Button x:Name="btnGenerate_3" Content="Generate 1000 Test files" Grid.Column="17" Grid.Row="24" Click="btnGenerate_3_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write the 1000 Test files in the folder"/>
-            <TextBlock Text="Nbre : " Grid.Row="22" Grid.Column="14" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" Grid.RowSpan="2"/>
-            <TextBox x:Name="txbNbreTestFiles" Grid.Column="15" Grid.Row="22" TextWrapping="Wrap" Text="1000" FontWeight="Bold" />
+            <TextBlock Text="Path : " Grid.Row="27" Grid.Column="1" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" />
+            <TextBox Name="txbPathSwift" Grid.Column="2" Grid.Row="27" TextWrapping="Wrap" Text="C:\Developpement\Tests_dev\" Grid.ColumnSpan="11" FontWeight="Bold"/>
+            <Button Name="btnBrowse_3" Content="..." Grid.Column="17" Grid.Row="27" Click="btnBrowse_3_Click" Background="#FFE2E220" FontWeight="Bold" ToolTip="Browser to select the folder of test files"/>
+            <Button x:Name="btnMT502" Content="MT502" Grid.Column="2" Grid.Row="29" Click="btnMT502_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write MT502 Test files in the folder"/>
+            <Button x:Name="btnMT54X" Content="MT54X" Grid.Column="4" Grid.Row="29" Click="btnMT54X_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write MT54X Test files in the folder"/>
+            <Button x:Name="btnMT598" Content="MT598" Grid.Column="6" Grid.Row="29" Click="btnMT598_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write MT598 Test files in the folder"/>
+            <Button x:Name="btnMT304" Content="MT304" Grid.Column="8" Grid.Row="29" Click="btnMT304_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write MT304 Test files in the folder"/>
+            <Button x:Name="btnUBIX" Content="UBIX" Grid.Column="10" Grid.Row="29" Click="btnUBIX_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write UBIX Test files in the folder"/>
+            <Button x:Name="btnGenerate_3" Content="Generate 1000 Test files" Grid.Column="17" Grid.Row="29" Click="btnGenerate_3_Click" Background="#FF66B4EA" FontWeight="Bold" ToolTip="Write the 1000 Test files in the folder"/>
+            <TextBlock Text="Nbre : " Grid.Row="27" Grid.Column="14" Foreground="Red" TextDecorations="Underline" FontWeight="Bold" Grid.RowSpan="2"/>
+            <TextBox x:Name="txbNbreTestFiles" Grid.Column="15" Grid.Row="27" TextWrapping="Wrap" Text="1000" FontWeight="Bold" />
 
-            <Button Name="btnClose" Content="Close" Grid.Column="17" Grid.Row="26" Click="btnClose_Click" Background="#FFDE24CD" FontWeight="Bold"  ToolTip="Close the application"/>
+            <Button Name="btnClose" Content="Close" Grid.Column="17" Grid.Row="31" Click="btnClose_Click" Background="#FFDE24CD" FontWeight="Bold"  ToolTip="Close the application"/>
         </Grid>
 
     </Grid>

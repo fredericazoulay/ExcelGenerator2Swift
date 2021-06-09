@@ -60,4 +60,3 @@ C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Debug\ExcelGenerator
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Debug\ExcelGenerator2Swift.csproj.CopyComplete
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Debug\ExcelGenerator2Swift.exe
 C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Debug\ExcelGenerator2Swift.pdb
-C:\Users\DELL\source\repos\ExcelGenerator2Swift\WpfApp1\obj\Debug\ExcelGenerator2Swift.csprojAssemblyReference.cache
